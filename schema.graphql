@@ -1,0 +1,7 @@
+type Tag {
+  name: String! @unique
+}
+
+type Query {
+  allTags: [Tag!]!
+}
