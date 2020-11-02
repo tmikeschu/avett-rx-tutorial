@@ -1,24 +1,13 @@
 import styles from "../styles/Home.module.css";
 
 import * as React from "react";
-import { gql, useQuery } from "@apollo/client";
 import { NextPage } from "next";
 import Head from "next/head";
 
+import { useGetTagsQuery } from "api";
+
 const Home: NextPage = () => {
-  const { data, loading } = useQuery<{
-    allTags: { data: Array<{ name: string }> };
-  }>(
-    gql`
-      query GetTags {
-        allTags {
-          data {
-            name
-          }
-        }
-      }
-    `
-  );
+  const { data, loading } = useGetTagsQuery();
   const tags = data && data.allTags ? data.allTags.data : [];
 
   return (

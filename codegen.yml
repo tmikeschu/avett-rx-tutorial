@@ -1,0 +1,20 @@
+overwrite: true
+hooks:
+  afterOneFileWrite:
+    - prettier --write
+schema:
+  - https://graphql.fauna.com/graphql:
+      headers:
+        Authorization: Bearer ${FAUNA_ADMIN_KEY}
+documents: "src/**/*.graphql"
+generates:
+  __generated__/api.tsx:
+    config:
+      apolloReactHooksImportFrom: "@apollo/client"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+  __generated__/graphql.schema.json:
+    plugins:
+      - "introspection"
