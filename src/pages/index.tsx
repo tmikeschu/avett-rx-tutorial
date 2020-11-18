@@ -1,6 +1,5 @@
-import styles from "../styles/Home.module.css";
-
 import * as React from "react";
+import { Flex, Heading, List, ListItem, Spinner } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Head from "next/head";
 
@@ -11,22 +10,38 @@ const Home: NextPage = () => {
   const tags = data && data.allTags ? data.allTags.data : [];
 
   return (
-    <div className={styles.container}>
+    <Flex
+      minHeight="100vh"
+      px="2"
+      direction="column"
+      justify="center"
+      align="center"
+    >
       <Head>
         <title>Avett Rx</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to Avett Rx</h1>
+      <Flex py="20" flex="1" direction="column" justify="center" align="center">
+        <Heading m="0" lineHeight="shorter" fontSize="6xl" textAlign="center">
+          Welcome to Avett Rx
+        </Heading>
 
         {loading ? (
-          <span>Loading...</span>
+          <Spinner />
         ) : (
-          tags.map((tag) => (tag ? <div key={tag._id}>{tag.name}</div> : null))
+          <List display="flex">
+            {tags.map((tag) =>
+              tag ? (
+                <ListItem key={tag._id} fontSize="4xl" _notLast={{ mr: 4 }}>
+                  {tag.name}
+                </ListItem>
+              ) : null
+            )}
+          </List>
         )}
-      </main>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 

@@ -6,6 +6,14 @@ const theme = extendTheme({
     heading: "'Arapey', Georgia, serif",
     mono: "Menlo, monospace",
   },
+
+  components: {
+    Heading: {
+      baseStyle: {
+        letterSpacing: "tighter",
+      },
+    },
+  },
 });
 
 export default theme;
