@@ -1,14 +1,11 @@
 import * as React from "react";
-import { Flex, Heading, List, ListItem, Spinner } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Head from "next/head";
 
-import { useGetTagsQuery } from "api";
+import ViewTags from "features/view-tags";
 
 const Home: NextPage = () => {
-  const { data, loading } = useGetTagsQuery();
-  const tags = data && data.allTags ? data.allTags.data : [];
-
   return (
     <Flex
       minHeight="100vh"
@@ -27,19 +24,7 @@ const Home: NextPage = () => {
           Welcome to Avett Rx
         </Heading>
 
-        {loading ? (
-          <Spinner />
-        ) : (
-          <List display="flex">
-            {tags.map((tag) =>
-              tag ? (
-                <ListItem key={tag._id} fontSize="4xl" _notLast={{ mr: 4 }}>
-                  {tag.name}
-                </ListItem>
-              ) : null
-            )}
-          </List>
-        )}
+        <ViewTags />
       </Flex>
     </Flex>
   );
