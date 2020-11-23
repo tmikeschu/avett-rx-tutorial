@@ -12,7 +12,9 @@
     "next:dev": "next dev",
     "prebuild": "yarn types:build",
     "types:build": "DOTENV_CONFIG_PATH=./.env.local graphql-codegen --config codegen.yml -r dotenv/config",
-    "types:watch": "yarn types:build --watch"
+    "types:watch": "yarn types:build --watch",
+    "storybook:run": "start-storybook -p 6006",
+    "storybook:build": "build-storybook"
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
@@ -26,15 +28,21 @@
     "react-dom": "17.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.7",
     "@graphql-codegen/cli": "^1.19.0",
     "@graphql-codegen/introspection": "^1.18.0",
     "@graphql-codegen/typescript": "^1.17.11",
     "@graphql-codegen/typescript-operations": "^1.17.8",
     "@graphql-codegen/typescript-react-apollo": "^2.0.7",
+    "@storybook/addon-actions": "^6.1.2",
+    "@storybook/addon-essentials": "^6.1.2",
+    "@storybook/addon-links": "^6.1.2",
+    "@storybook/react": "^6.1.2",
     "@types/node": "^14.14.6",
     "@types/react": "^16.9.55",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
+    "babel-loader": "^8.2.1",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
