@@ -23,7 +23,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "__generated__/**/*.tsx",
-    "__generated__/**/*.d.ts"
+    "__generated__/**/*.d.ts",
+    "jest.config.js"
   ],
   "exclude": ["node_modules"]
 }
