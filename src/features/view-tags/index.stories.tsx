@@ -24,8 +24,8 @@ export default {
 
 const Template: Story = () => <ViewTags />;
 
-export const Demo: Story = Template.bind({});
-Demo.decorators = [
+export const WithData: Story = Template.bind({});
+WithData.decorators = [
   (story) => (
     <MockedProvider
       addTypename={false}
@@ -57,6 +57,23 @@ export const Loading: Story = Template.bind({});
 Loading.decorators = [
   (story) => (
     <MockedProvider addTypename={false} mocks={[]}>
+      {story()}
+    </MockedProvider>
+  ),
+];
+
+export const EmptyState: Story = Template.bind({});
+EmptyState.decorators = [
+  (story) => (
+    <MockedProvider
+      addTypename={false}
+      mocks={[
+        {
+          request: { query: GetTagsDocument },
+          result: { data: { allTags: { data: [] } } },
+        },
+      ]}
+    >
       {story()}
     </MockedProvider>
   ),

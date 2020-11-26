@@ -22,6 +22,19 @@ const Loading: React.FC = () => {
 type Data = NonNullable<GetTagsQueryResult["data"]>;
 const Data: React.FC<{ data: Data }> = ({ data }) => {
   const tags = data.allTags ? data.allTags.data : [];
+  if (tags.length === 0) {
+    return (
+      <Text
+        color="yellow.600"
+        backgroundColor="yellow.100"
+        px={4}
+        py={2}
+        rounded="md"
+      >
+        Oh snap! We don&apos;t have any tags to show yet.
+      </Text>
+    );
+  }
   return (
     <List display="flex">
       {tags.map((tag) =>
