@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ViewTags /> shows a loading spinner while fetching data 1`] = `
+<div>
+  <div
+    class="chakra-spinner css-en9w25"
+    data-testid="loading"
+  >
+    <span
+      class="css-f8n5zr"
+    >
+      Loading...
+    </span>
+  </div>
+</div>
+`;
+
+exports[`<ViewTags /> shows an empty state 1`] = `
+<div>
+  <p
+    class="chakra-text css-9p4anf"
+  >
+    Oh snap! We don't have any tags to show yet.
+  </p>
+</div>
+`;
+
+exports[`<ViewTags /> shows an error state 1`] = `
+<div>
+  <p
+    class="chakra-text css-ucebhq"
+  >
+    Oh no! Something went wrong fetching that data.
+  </p>
+</div>
+`;
+
+exports[`<ViewTags /> shows data after loading 1`] = `
+<ul
+  aria-label="tags list"
+  class="css-1ttwu97"
+  role="list"
+>
+  <li
+    class="css-1ntkcqz"
+  >
+    test tag
+  </li>
+</ul>
+`;

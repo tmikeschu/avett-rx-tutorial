@@ -16,7 +16,7 @@ const ViewTags: React.FC = () => {
 export default ViewTags;
 
 const Loading: React.FC = () => {
-  return <Spinner color="purple.500" />;
+  return <Spinner color="purple.500" data-testid="loading" />;
 };
 
 type Data = NonNullable<GetTagsQueryResult["data"]>;
@@ -36,7 +36,7 @@ const Data: React.FC<{ data: Data }> = ({ data }) => {
     );
   }
   return (
-    <List display="flex">
+    <List display="flex" aria-label="tags list">
       {tags.map((tag) =>
         tag ? (
           <ListItem key={tag._id} fontSize="4xl" _notLast={{ mr: 4 }}>
