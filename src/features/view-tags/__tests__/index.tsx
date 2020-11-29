@@ -1,5 +1,3 @@
-// src/features/view-tags/__tests__/index.tsx
-
 import * as React from "react";
 import * as utils from "test";
 
