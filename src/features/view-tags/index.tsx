@@ -21,7 +21,7 @@ const Loading: React.FC = () => {
 
 type Data = NonNullable<GetTagsQueryResult["data"]>;
 const Data: React.FC<{ data: Data }> = ({ data }) => {
-  const tags = data.allTags ? data.allTags.data : [];
+  const tags = data.allTags.data;
   if (tags.length === 0) {
     return (
       <Text
