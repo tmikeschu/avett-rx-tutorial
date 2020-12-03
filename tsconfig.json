@@ -24,7 +24,8 @@
     "src/**/*.tsx",
     "__generated__/**/*.tsx",
     "__generated__/**/*.d.ts",
-    "jest.config.js"
+    "jest.config.js",
+    "next.config.js"
   ],
   "exclude": ["node_modules"]
 }
