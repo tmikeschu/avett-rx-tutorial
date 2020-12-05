@@ -6,11 +6,11 @@ module.exports = {
     "^.+\\.tsx?$": "babel-jest",
   },
   moduleNameMapper: {
-    "^(components|features|lib|test)/(.*)$": "<rootDir>/src/$1/$2",
+    "^(components|features|lib|mocks|test)/(.*)$": "<rootDir>/src/$1/$2",
     "^(test)$": "<rootDir>/src/$1",
     "^(api)$": "<rootDir>/__generated__/$1",
     "\\.(css)$": "<rootDir>/__mocks__/styleMock.js",
   },
   setupFilesAfterEnv: ["<rootDir>/src/test/setup-env.ts"],
-  coveragePathIgnorePatterns: ["src/test/*"],
+  coveragePathIgnorePatterns: ["src/test", "__generated__"],
 };

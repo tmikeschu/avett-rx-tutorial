@@ -15,7 +15,7 @@ export const handlers = [
         ctx.data(
           newGetTagsData({
             allTags: {
-              data: [newTag({ name: "test tag" })],
+              data: [newTag({ name: "test tag" }), null],
             },
           })
         )

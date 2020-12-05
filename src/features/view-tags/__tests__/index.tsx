@@ -1,61 +1,68 @@
 import * as React from "react";
+import { server } from "mocks/server";
+import { graphql } from "msw";
 import * as utils from "test";
 
-import { Tag, useGetTagsQuery } from "api";
+import { GetTagsQuery, GetTagsQueryVariables, newGetTagsData } from "api";
 
 import ViewTags from "..";
 
-jest.mock("api", () => ({
-  useGetTagsQuery: jest.fn(),
-}));
-const queryMock = useGetTagsQuery as jest.Mock;
-
 describe("<ViewTags />", () => {
+  afterEach(() => {
+    server.resetHandlers();
+  });
+
   it("shows a loading spinner while fetching data", async () => {
-    queryMock.mockReturnValueOnce({
-      loading: true,
-    });
     const { getByTestId, container } = utils.render(<ViewTags />);
     expect(getByTestId("loading")).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 
   it("shows an empty state", async () => {
-    queryMock.mockReturnValueOnce({
-      loading: false,
-      data: {
-        allTags: { data: [] },
-      },
-    });
-    const { getByText, container } = utils.render(<ViewTags />);
-    expect(getByText(/don't have any tags/i)).toBeInTheDocument();
+    server.use(
+      graphql.query<GetTagsQuery, GetTagsQueryVariables>(
+        "GetTags",
+        (_req, res, ctx) => {
+          return res(ctx.data(newGetTagsData({ allTags: { data: [] } })));
+        }
+      )
+    );
+    const { findByText, container, getByTestId, queryByTestId } = utils.render(
+      <ViewTags />
+    );
+    expect(getByTestId("loading")).toBeInTheDocument();
+    expect(await findByText(/don't have any tags/i)).toBeInTheDocument();
     expect(container).toMatchSnapshot();
+    expect(queryByTestId("loading")).toBeNull();
   });
 
   it("shows an error state", async () => {
     jest.spyOn(console, "error").mockImplementation();
-    queryMock.mockReturnValueOnce({
-      loading: false,
-      error: new Error("unable to fetch"),
-    });
-    const { getByText, container } = utils.render(<ViewTags />);
-    expect(getByText(/oh no!/i)).toBeInTheDocument();
+    server.use(
+      graphql.query<GetTagsQuery, GetTagsQueryVariables>(
+        "GetTags",
+        (_req, res, ctx) => {
+          return res(ctx.errors([{ message: "unable to fetch" }]));
+        }
+      )
+    );
+    const { findByText, container, getByTestId, queryByTestId } = utils.render(
+      <ViewTags />
+    );
+    expect(getByTestId("loading")).toBeInTheDocument();
+    expect(await findByText(/oh no!/i)).toBeInTheDocument();
     expect(container).toMatchSnapshot();
+    expect(queryByTestId("loading")).toBeNull();
     jest.restoreAllMocks();
   });
 
   it("shows data after loading", async () => {
-    queryMock.mockReturnValueOnce({
-      loading: false,
-      data: {
-        allTags: {
-          data: [{ name: "test tag", _id: "1" } as Tag, null],
-        },
-      },
-    });
-    const { queryByTestId, getByText, getByRole } = utils.render(<ViewTags />);
-    expect(queryByTestId("loading")).toBeNull();
-    expect(getByText(/test tag/i)).toBeInTheDocument();
+    const { queryByTestId, getByTestId, getByRole, findByText } = utils.render(
+      <ViewTags />
+    );
+    expect(getByTestId("loading")).toBeInTheDocument();
+    expect(await findByText(/test tag/i)).toBeInTheDocument();
     expect(getByRole("list", { name: /tags list/i })).toMatchSnapshot();
+    expect(queryByTestId("loading")).toBeNull();
   });
 });
