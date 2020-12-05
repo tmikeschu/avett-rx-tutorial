@@ -15,8 +15,8 @@
     "prebuild": "yarn types:build",
     "types:build": "DOTENV_CONFIG_PATH=./.env.local graphql-codegen --config codegen.yml -r dotenv/config",
     "types:watch": "yarn types:build --watch",
-    "storybook:run": "start-storybook -p 6006",
-    "storybook:build": "build-storybook",
+    "storybook:run": "start-storybook -p 6006 -s public/",
+    "storybook:build": "build-storybook -s public/",
     "test": "yarn jest",
     "test:watch": "yarn jest --watch",
     "test:coverage": "yarn jest --coverage"

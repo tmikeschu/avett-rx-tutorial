@@ -1,9 +1,10 @@
 import * as React from "react";
-import { MockedProvider } from "@apollo/client/testing";
 import { Flex, Heading } from "@chakra-ui/react";
 import { Meta, Story } from "@storybook/react";
+import { worker } from "mocks/browser";
+import { graphql } from "msw";
 
-import { GetTagsDocument } from "api";
+import { GetTagsQuery, GetTagsQueryVariables, newGetTagsData } from "api";
 
 import ViewTags from ".";
 
@@ -26,74 +27,83 @@ const Template: Story = () => <ViewTags />;
 
 export const WithData: Story = Template.bind({});
 WithData.decorators = [
-  (story) => (
-    <MockedProvider
-      addTypename={false}
-      mocks={[
-        {
-          request: {
-            query: GetTagsDocument,
-          },
-          result: {
-            data: {
-              allTags: {
-                data: [
-                  { name: "🙊", _id: "1" },
-                  { name: "🙈", _id: "2" },
-                  { name: "🙉", _id: "3" },
-                ],
-              },
-            },
-          },
-        },
-      ]}
-    >
-      {story()}
-    </MockedProvider>
-  ),
+  (story) => {
+    worker.use(
+      graphql.query<GetTagsQuery, GetTagsQueryVariables>(
+        "GetTags",
+        (_req, res, ctx) => {
+          return res(
+            ctx.data(
+              newGetTagsData({
+                allTags: {
+                  data: [
+                    { name: "🙊", _id: "1" },
+                    { name: "🙈", _id: "2" },
+                    { name: "🙉", _id: "3" },
+                  ],
+                },
+              })
+            )
+          );
+        }
+      )
+    );
+
+    return story();
+  },
 ];
 
 export const Loading: Story = Template.bind({});
 Loading.decorators = [
-  (story) => (
-    <MockedProvider addTypename={false} mocks={[]}>
-      {story()}
-    </MockedProvider>
-  ),
+  (story) => {
+    worker.use(
+      graphql.query<GetTagsQuery, GetTagsQueryVariables>(
+        "GetTags",
+        (_req, res, ctx) => {
+          // 1 hour delay to view the loading state
+          return res(ctx.delay(1000 * 60 * 60), ctx.data(newGetTagsData({})));
+        }
+      )
+    );
+    return story();
+  },
 ];
 
 export const EmptyState: Story = Template.bind({});
 EmptyState.decorators = [
-  (story) => (
-    <MockedProvider
-      addTypename={false}
-      mocks={[
-        {
-          request: { query: GetTagsDocument },
-          result: { data: { allTags: { data: [] } } },
-        },
-      ]}
-    >
-      {story()}
-    </MockedProvider>
-  ),
+  (story) => {
+    worker.use(
+      graphql.query<GetTagsQuery, GetTagsQueryVariables>(
+        "GetTags",
+        (_req, res, ctx) => {
+          return res(
+            ctx.data(
+              newGetTagsData({
+                allTags: {
+                  data: [],
+                },
+              })
+            )
+          );
+        }
+      )
+    );
+
+    return story();
+  },
 ];
 
 export const Failed: Story = Template.bind({});
 Failed.decorators = [
-  (story) => (
-    <MockedProvider
-      addTypename={false}
-      mocks={[
-        {
-          request: {
-            query: GetTagsDocument,
-          },
-          error: new Error("unable to get tags"),
-        },
-      ]}
-    >
-      {story()}
-    </MockedProvider>
-  ),
+  (story) => {
+    worker.use(
+      graphql.query<GetTagsQuery, GetTagsQueryVariables>(
+        "GetTags",
+        (_req, res, ctx) => {
+          return res(ctx.errors([{ message: "Unable to fetch" }]));
+        }
+      )
+    );
+    return story();
+  },
 ];
