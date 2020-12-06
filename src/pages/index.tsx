@@ -20,7 +20,12 @@ const Home: NextPage = () => {
       </Head>
 
       <Flex py="20" flex="1" direction="column" justify="center" align="center">
-        <Heading m="0" lineHeight="shorter" fontSize="6xl" textAlign="center">
+        <Heading
+          m="0"
+          lineHeight="shorter"
+          fontSize={["4xl", "6xl"]}
+          textAlign="center"
+        >
           Welcome to Avett Rx
         </Heading>
 
