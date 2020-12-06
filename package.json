@@ -12,7 +12,7 @@
     "schema:update": "./scripts/update-schema.sh",
     "next:dev": "next dev",
     "next:e2e": "MOCK_SERVICE_WORKER=1 next dev",
-    "prebuild": "yarn types:build",
+    "prebuild": "CI=true yarn test",
     "types:build": "DOTENV_CONFIG_PATH=./.env.local graphql-codegen --config codegen.yml -r dotenv/config",
     "types:watch": "yarn types:build --watch",
     "storybook:run": "start-storybook -p 6006 -s public/",
@@ -24,7 +24,8 @@
     "cy:run": "yarn cypress run",
     "test:cy-open": "start-server-and-test dev:e2e http://localhost:3000 cy:open",
     "test:cy-run": "start-server-and-test dev:ci http://localhost:3000 cy:run",
-    "dev:ci": "MOCK_SERVICE_WORKER=1 next dev"
+    "dev:ci": "MOCK_SERVICE_WORKER=1 next dev",
+    "pretest": "yarn types:build"
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
