@@ -35,3 +35,4 @@ yarn-error.log*
 
 .eslintcache
 __generated__
+cypress/videos
