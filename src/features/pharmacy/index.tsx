@@ -66,11 +66,13 @@ const Data: React.FC<{ data: Data }> = ({ data }) => {
   const [getSongsForTag, songsResult] = useSongsForTagLazyQuery();
 
   React.useEffect(() => {
-    getSongsForTag({
-      variables: {
-        tagID: selectedTagId,
-      },
-    });
+    if (selectedTagId.length > 0) {
+      getSongsForTag({
+        variables: {
+          tagID: selectedTagId,
+        },
+      });
+    }
   }, [selectedTagId, getSongsForTag]);
 
   if (data.allTags.data.length === 0) {
