@@ -1,13 +1,16 @@
 import * as React from "react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
   Button,
   Flex,
   Heading,
+  IconButton,
   List,
   ListItem,
   Spinner,
   Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 import {
   GetTagsQueryResult,
@@ -18,9 +21,17 @@ import {
 import { render } from "lib/render-query";
 
 const Pharmacy: React.FC = () => {
+  const { back } = useRouter();
   const result = useGetTagsQuery();
   return (
     <Flex>
+      <IconButton
+        aria-label="back"
+        icon={<ArrowBackIcon />}
+        onClick={() => {
+          back();
+        }}
+      />
       <Heading>Pharmacy</Heading>
       {render(result, { Loading, Error: Failed, Data })}
     </Flex>

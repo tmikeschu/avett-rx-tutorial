@@ -1,14 +1,11 @@
 import * as React from "react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Flex, IconButton } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 import Pharmacy from "features/pharmacy";
 
 const PharmacyPage: NextPage = () => {
-  const { back } = useRouter();
   return (
     <Flex
       minHeight="100vh"
@@ -21,13 +18,6 @@ const PharmacyPage: NextPage = () => {
         <title>Avett Rx: Pharmacy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <IconButton
-        aria-label="back"
-        icon={<ArrowBackIcon />}
-        onClick={() => {
-          back();
-        }}
-      />
 
       <Pharmacy />
     </Flex>
