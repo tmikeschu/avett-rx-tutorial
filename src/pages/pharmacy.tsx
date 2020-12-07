@@ -1,11 +1,13 @@
 import * as React from "react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Flex, Heading, IconButton } from "@chakra-ui/react";
+import { Flex, IconButton } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-const Pharmacy: NextPage = () => {
+import Pharmacy from "features/pharmacy";
+
+const PharmacyPage: NextPage = () => {
   const { back } = useRouter();
   return (
     <Flex
@@ -27,9 +29,9 @@ const Pharmacy: NextPage = () => {
         }}
       />
 
-      <Heading>Pharmacy</Heading>
+      <Pharmacy />
     </Flex>
   );
 };
 
-export default Pharmacy;
+export default PharmacyPage;

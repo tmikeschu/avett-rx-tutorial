@@ -4,6 +4,7 @@ describe("Pharmacy", () => {
     cy.findByText(/get a prescription/i).click();
     cy.location("pathname").should("match", /^\/pharmacy$/);
     cy.findByRole("heading", { name: /pharmacy/i }).should("exist");
+    cy.findByText(/select a feeling/i).should("exist");
     cy.findByRole("button", { name: /back/i }).click();
     cy.location("pathname").should("match", /^\/$/);
   });
