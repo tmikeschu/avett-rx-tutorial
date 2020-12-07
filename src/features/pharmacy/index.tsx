@@ -19,20 +19,25 @@ import {
   useSongsForTagLazyQuery,
 } from "api";
 import { render } from "lib/render-query";
+import { nl2br } from "lib/utils";
 
 const Pharmacy: React.FC = () => {
   const { back } = useRouter();
   const result = useGetTagsQuery();
   return (
-    <Flex>
+    <Flex direction="column">
       <IconButton
+        mb={8}
+        alignSelf="flex-start"
         aria-label="back"
         icon={<ArrowBackIcon />}
         onClick={() => {
           back();
         }}
       />
-      <Heading>Pharmacy</Heading>
+
+      <Heading mb={4}>Pharmacy</Heading>
+
       {render(result, { Loading, Error: Failed, Data })}
     </Flex>
   );
@@ -52,12 +57,14 @@ const Data: React.FC<{ data: Data }> = ({ data }) => {
   const [getSongsForTag, songsResult] = useSongsForTagLazyQuery();
 
   return (
-    <Flex>
-      <Text>Select a feeling</Text>
-      <List>
+    <Flex direction="column">
+      <Text mb={2}>Select a feeling</Text>
+      <List mb={4}>
         {data.allTags.data.map((tag) => (
           <ListItem key={tag._id}>
             <Button
+              colorScheme="purple"
+              variant="outline"
               onClick={() => {
                 getSongsForTag({
                   variables: {
@@ -83,15 +90,21 @@ const Data: React.FC<{ data: Data }> = ({ data }) => {
   );
 };
 
-type SongsData = NonNullable<SongsForTagQueryResult["data"]>;
-const SongsData: React.FC<{ data: SongsData }> = ({ data }) => {
+export type SongsData = NonNullable<SongsForTagQueryResult["data"]>;
+export const SongsData: React.FC<{ data: SongsData }> = ({ data }) => {
   const song = data.songsForTag.data[0];
 
   return (
-    <Flex>
-      <Heading>{song.title}</Heading>
-      <Text>From: {song.album.title}</Text>
-      <Text>{song.lyrics}</Text>
+    <Flex direction="column">
+      <Text as="h3" fontWeight="bold" lineHeight="1.2" color="purple.700">
+        {song.title}
+      </Text>
+      <Text color="gray.500" fontSize="sm">
+        From: {song.album.title}
+      </Text>
+      <Text mt={2} fontStyle="italic" color="purp">
+        {nl2br(song.lyrics)}
+      </Text>
     </Flex>
   );
 };
