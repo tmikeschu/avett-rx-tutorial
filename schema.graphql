@@ -1,7 +1,31 @@
+type Song {
+  title: String!
+  album: Album!
+  lyrics: String!
+  tags: [Tag!] @relation
+}
+
+type Album {
+  title: String!
+  songs: [Song!] @relation
+}
+
 type Tag {
   name: String! @unique
+  songs: [Song!]! @relation
+}
+
+type User {
+  email: String! @unique
+  nickname: String
+  name: String
+  picture: String
 }
 
 type Query {
   allTags: [Tag!]!
+  allAlbums: [Album!]!
+  allSongs: [Song!]!
+  songsForTag(tagID: ID!): [Song!]!
+    @resolver(name: "songs_for_tag", paginated: true)
 }

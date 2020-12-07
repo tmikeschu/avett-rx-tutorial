@@ -1,0 +1,17 @@
+fragment PharmacySong on Song {
+  _id
+  title
+  lyrics
+
+  album {
+    title
+  }
+}
+
+query SongsForTag($tagID: ID!) {
+  songsForTag(tagID: $tagID) {
+    data {
+      ...PharmacySong
+    }
+  }
+}
