@@ -44,9 +44,10 @@ describe("<Pharmacy />", () => {
       queryByTestId,
     } = utils.render(<Pharmacy />);
 
-    expect(getByTestId("loading")).toBeInTheDocument();
+    const spinner = getByTestId("loading");
+    expect(spinner).toBeInTheDocument();
     expect(await findByText(/select.*feeling/i));
-    expect(queryByTestId("loading")).toBeNull();
+    expect(spinner).not.toBeInTheDocument();
     expect(getByRole("heading", { name: /pharmacy/i })).toBeInTheDocument();
 
     expect(queryByText(/sanguine/i)).toBeNull();

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Flex, Heading } from "@chakra-ui/react";
 import { Meta, Story } from "@storybook/react";
-import { worker } from "mocks/browser";
 import { graphql } from "msw";
 
 import { GetTagsQuery, GetTagsQueryVariables, newGetTagsData } from "api";
+import { worker } from "mocks/browser";
 
 import ViewTags from ".";
 

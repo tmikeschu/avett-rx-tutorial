@@ -12,5 +12,9 @@ module.exports = {
     "\\.(css)$": "<rootDir>/__mocks__/styleMock.js",
   },
   setupFilesAfterEnv: ["<rootDir>/src/test/setup-env.ts"],
-  coveragePathIgnorePatterns: ["src/test", "__generated__"],
+  coveragePathIgnorePatterns: [
+    "src/test",
+    "__generated__",
+    "src/components/drawings",
+  ],
 };
