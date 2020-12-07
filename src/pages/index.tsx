@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading, Link } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Head from "next/head";
+import NextLink from "next/link";
 
 import ViewTags from "features/view-tags";
 
@@ -30,6 +31,10 @@ const Home: NextPage = () => {
         </Heading>
 
         <ViewTags />
+
+        <NextLink href="/pharmacy">
+          <Link>Get a prescription</Link>
+        </NextLink>
       </Flex>
     </Flex>
   );
