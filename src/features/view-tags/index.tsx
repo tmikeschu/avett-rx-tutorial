@@ -2,14 +2,16 @@ import * as React from "react";
 import { List, ListItem, Spinner, Text } from "@chakra-ui/react";
 
 import { GetTagsQueryResult, useGetTagsQuery } from "api";
-import { render } from "lib/render-query";
+import { renderResult } from "lib/render-result";
 
 const ViewTags: React.FC = () => {
   const result = useGetTagsQuery();
-  return render(result, {
+  return renderResult(result, {
     Loading,
-    Error: Failed,
-    Data,
+    Failure,
+    Success,
+    Empty,
+    isEmpty: (data) => data.allTags.data.length === 0,
   });
 };
 
@@ -19,22 +21,23 @@ const Loading: React.FC = () => {
   return <Spinner color="purple.500" data-testid="loading" />;
 };
 
+const Empty = () => {
+  return (
+    <Text
+      color="yellow.600"
+      backgroundColor="yellow.100"
+      px={4}
+      py={2}
+      rounded="md"
+    >
+      Oh snap! We don&apos;t have any tags to show yet.
+    </Text>
+  );
+};
+
 type Data = NonNullable<GetTagsQueryResult["data"]>;
-const Data: React.FC<{ data: Data }> = ({ data }) => {
+const Success: React.FC<{ data: Data }> = ({ data }) => {
   const tags = data.allTags.data;
-  if (tags.length === 0) {
-    return (
-      <Text
-        color="yellow.600"
-        backgroundColor="yellow.100"
-        px={4}
-        py={2}
-        rounded="md"
-      >
-        Oh snap! We don&apos;t have any tags to show yet.
-      </Text>
-    );
-  }
   return (
     <List display="flex" aria-label="tags list">
       {tags.map((tag) =>
@@ -49,7 +52,7 @@ const Data: React.FC<{ data: Data }> = ({ data }) => {
 };
 
 type FetchError = NonNullable<GetTagsQueryResult["error"]>;
-const Failed: React.FC<{ error: FetchError }> = ({ error }) => {
+const Failure: React.FC<{ error: FetchError }> = ({ error }) => {
   console.error(error);
   return (
     <Text color="red.600" backgroundColor="red.100" px={4} py={2} rounded="md">

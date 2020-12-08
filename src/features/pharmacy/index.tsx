@@ -21,7 +21,7 @@ import {
 } from "api";
 import EmptyVoid from "components/drawings/empty-void";
 import Heartbroken from "components/drawings/heartbroken";
-import { render } from "lib/render-query";
+import { renderResult } from "lib/render-result";
 import { nl2br } from "lib/utils";
 
 const Pharmacy: React.FC = () => {
@@ -41,7 +41,13 @@ const Pharmacy: React.FC = () => {
 
       <Heading mb={4}>Pharmacy</Heading>
 
-      {render(result, { Loading, Error: Failed, Data })}
+      {renderResult(result, {
+        Loading,
+        Failure,
+        Success,
+        Empty,
+        isEmpty: (data) => data.allTags.data.length === 0,
+      })}
     </Flex>
   );
 };
@@ -51,7 +57,7 @@ const Loading: React.FC = () => {
 };
 
 type FetchError = NonNullable<GetTagsQueryResult["error"]>;
-const Failed: React.FC<{ error: FetchError }> = ({ error }) => {
+const Failure: React.FC<{ error: FetchError }> = ({ error }) => {
   console.error(error);
   return (
     <Text color="red.600" backgroundColor="red.100" px={4} py={2} rounded="md">
@@ -60,8 +66,28 @@ const Failed: React.FC<{ error: FetchError }> = ({ error }) => {
   );
 };
 
+const Empty = () => {
+  return (
+    <Flex direction="column" alignItems="flex-start" width="100%">
+      <Text
+        mb={4}
+        color="yellow.600"
+        backgroundColor="yellow.100"
+        px={4}
+        py={2}
+        rounded="md"
+      >
+        Oh snap! We don&apos;t have any tags to show yet.
+      </Text>
+      <Box color="purple.300" height={300} width={300} maxWidth="100%">
+        <EmptyVoid />
+      </Box>
+    </Flex>
+  );
+};
+
 type Data = NonNullable<GetTagsQueryResult["data"]>;
-const Data: React.FC<{ data: Data }> = ({ data }) => {
+const Success: React.FC<{ data: Data }> = ({ data }) => {
   const [selectedTagId, setSelectedTagId] = React.useState("");
   const [getSongsForTag, songsResult] = useSongsForTagLazyQuery();
 
@@ -74,26 +100,6 @@ const Data: React.FC<{ data: Data }> = ({ data }) => {
       });
     }
   }, [selectedTagId, getSongsForTag]);
-
-  if (data.allTags.data.length === 0) {
-    return (
-      <Flex direction="column" alignItems="flex-start" width="100%">
-        <Text
-          mb={4}
-          color="yellow.600"
-          backgroundColor="yellow.100"
-          px={4}
-          py={2}
-          rounded="md"
-        >
-          Oh snap! We don&apos;t have any tags to show yet.
-        </Text>
-        <Box color="purple.300" height={300} width={300} maxWidth="100%">
-          <EmptyVoid />
-        </Box>
-      </Flex>
-    );
-  }
 
   return (
     <Flex direction="column" width="100%">
@@ -125,12 +131,34 @@ const Data: React.FC<{ data: Data }> = ({ data }) => {
       </List>
 
       {songsResult.called === true
-        ? render(songsResult, {
+        ? renderResult(songsResult, {
             Loading,
-            Error: Failed,
-            Data: SongData,
+            Failure: SongFailure,
+            Success: SongData,
+            Empty: SongEmpty,
+            isEmpty: (data) => data.songsForTag.data.length === 0,
           })
         : null}
+    </Flex>
+  );
+};
+
+const SongEmpty = () => {
+  return (
+    <Flex direction="column" alignItems="flex-start" width="100%">
+      <Text
+        mb={4}
+        color="yellow.600"
+        backgroundColor="yellow.100"
+        px={4}
+        py={2}
+        rounded="md"
+      >
+        Oh snap! We don&apos;t have any songs for that tag yet.
+      </Text>
+      <Box color="purple.300" height={300} width={300} maxWidth="100%">
+        <Heartbroken />
+      </Box>
     </Flex>
   );
 };
@@ -138,26 +166,6 @@ const Data: React.FC<{ data: Data }> = ({ data }) => {
 export type SongData = NonNullable<SongsForTagQueryResult["data"]>;
 export const SongData: React.FC<{ data: SongData }> = ({ data }) => {
   const song = data.songsForTag.data[0];
-  if (!song) {
-    return (
-      <Flex direction="column" alignItems="flex-start" width="100%">
-        <Text
-          mb={4}
-          color="yellow.600"
-          backgroundColor="yellow.100"
-          px={4}
-          py={2}
-          rounded="md"
-        >
-          Oh snap! We don&apos;t have any songs for that tag yet.
-        </Text>
-        <Box color="purple.300" height={300} width={300} maxWidth="100%">
-          <Heartbroken />
-        </Box>
-      </Flex>
-    );
-  }
-
   return (
     <Flex direction="column">
       <Text as="h3" fontWeight="bold" lineHeight="shorter" color="purple.700">
@@ -174,5 +182,13 @@ export const SongData: React.FC<{ data: SongData }> = ({ data }) => {
 };
 
 export type SongError = NonNullable<SongsForTagQueryResult["error"]>;
+const SongFailure: React.FC<{ error: FetchError }> = ({ error }) => {
+  console.error(error);
+  return (
+    <Text color="red.600" backgroundColor="red.100" px={4} py={2} rounded="md">
+      Oh no! Something went wrong fetching tags.
+    </Text>
+  );
+};
 
 export default Pharmacy;
