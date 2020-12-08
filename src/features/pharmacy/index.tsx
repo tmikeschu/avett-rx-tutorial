@@ -143,7 +143,7 @@ const Success: React.FC<{ data: Data }> = ({ data }) => {
   );
 };
 
-const SongEmpty = () => {
+export const SongEmpty: React.FC = () => {
   return (
     <Flex direction="column" alignItems="flex-start" width="100%">
       <Text
@@ -182,7 +182,7 @@ export const SongData: React.FC<{ data: SongData }> = ({ data }) => {
 };
 
 export type SongError = NonNullable<SongsForTagQueryResult["error"]>;
-const SongFailure: React.FC<{ error: FetchError }> = ({ error }) => {
+export const SongFailure: React.FC<{ error: FetchError }> = ({ error }) => {
   console.error(error);
   return (
     <Text color="red.600" backgroundColor="red.100" px={4} py={2} rounded="md">

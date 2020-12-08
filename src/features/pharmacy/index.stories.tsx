@@ -1,19 +1,22 @@
 import * as React from "react";
+import { Flex } from "@chakra-ui/react";
 import { Meta, Story } from "@storybook/react";
-import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from "constants";
 import { graphql } from "msw";
 
 import {
   GetTagsQuery,
   GetTagsQueryVariables,
   newGetTagsData,
-  newSongsForTagResponse,
   newTag,
   useSongsForTagQuery,
 } from "api";
 import { worker } from "mocks/browser";
 
-import Pharmacy, { SongData } from "./";
+import Pharmacy, {
+  SongData,
+  SongEmpty,
+  SongFailure as SongFailureComponent,
+} from "./";
 
 export default {
   title: "Features/Pharmacy",
@@ -103,12 +106,25 @@ const SongsDataTemplate: Story<{ data: SongData }> = (args) => {
 export const Song = SongsDataTemplate.bind({});
 Song.decorators = [(Story) => <Story />];
 
-export const NoSongs = SongsDataTemplate.bind({});
-NoSongs.decorators = [(Story) => <Story />];
-NoSongs.args = {
-  data: {
-    songsForTag: {
-      data: [],
-    },
-  },
-};
+const NoSongsTemplate: Story = () => <SongEmpty />;
+export const NoSongs = NoSongsTemplate.bind({});
+
+const SongFailureTemplate: Story = () => (
+  <SongFailureComponent
+    error={{
+      message: "unable to fetch",
+      graphQLErrors: [],
+      networkError: new Error(),
+      name: "",
+      extraInfo: {},
+    }}
+  />
+);
+export const SongFailure = SongFailureTemplate.bind({});
+SongFailure.decorators = [
+  (Story) => (
+    <Flex direction="column" align="flex-start">
+      <Story />
+    </Flex>
+  ),
+];
