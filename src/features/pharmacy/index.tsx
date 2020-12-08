@@ -147,7 +147,7 @@ const Success: React.FC<{ data: Data }> = ({ data }) => {
 
 export const SongLoading: React.FC = () => {
   return (
-    <Flex direction="column" align="flex-start">
+    <Flex direction="column" align="flex-start" data-testid="loading">
       <Skeleton height="3" width="16" mb="1" />
       <Skeleton height="2" width="32" mb="2" />
 
