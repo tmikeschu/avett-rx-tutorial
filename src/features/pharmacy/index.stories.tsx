@@ -16,6 +16,7 @@ import Pharmacy, {
   SongData,
   SongEmpty,
   SongFailure as SongFailureComponent,
+  SongLoading as SongLoadingComponent,
 } from "./";
 
 export default {
@@ -106,8 +107,11 @@ const SongsDataTemplate: Story<{ data: SongData }> = (args) => {
 export const Song = SongsDataTemplate.bind({});
 Song.decorators = [(Story) => <Story />];
 
-const NoSongsTemplate: Story = () => <SongEmpty />;
-export const NoSongs = NoSongsTemplate.bind({});
+const NoSongTemplate: Story = () => <SongEmpty />;
+export const NoSong = NoSongTemplate.bind({});
+
+const SongLoadingTemplate: Story = () => <SongLoadingComponent />;
+export const SongLoading = SongLoadingTemplate.bind({});
 
 const SongFailureTemplate: Story = () => (
   <SongFailureComponent

@@ -8,6 +8,7 @@ import {
   IconButton,
   List,
   ListItem,
+  Skeleton,
   Spinner,
   Text,
 } from "@chakra-ui/react";
@@ -115,6 +116,7 @@ const Success: React.FC<{ data: Data }> = ({ data }) => {
         {data.allTags.data.map((tag) => (
           <ListItem key={tag._id} _notLast={{ mr: 4 }}>
             <Button
+              isLoading={songsResult.loading && selectedTagId === tag._id}
               colorScheme="purple"
               variant="outline"
               borderColor={
@@ -132,13 +134,26 @@ const Success: React.FC<{ data: Data }> = ({ data }) => {
 
       {songsResult.called === true
         ? renderResult(songsResult, {
-            Loading,
+            Loading: SongLoading,
             Failure: SongFailure,
             Success: SongData,
             Empty: SongEmpty,
             isEmpty: (data) => data.songsForTag.data.length === 0,
           })
         : null}
+    </Flex>
+  );
+};
+
+export const SongLoading: React.FC = () => {
+  return (
+    <Flex direction="column" align="flex-start">
+      <Skeleton height="3" width="16" mb="1" />
+      <Skeleton height="2" width="32" mb="2" />
+
+      {Array.from({ length: 10 }, (_, i) => (
+        <Skeleton key={i} height="2" width="40" _notLast={{ mb: 1 }} />
+      ))}
     </Flex>
   );
 };
