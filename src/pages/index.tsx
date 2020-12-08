@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Flex, Heading, Link } from "@chakra-ui/react";
+import { Button, Flex, Heading, Link, Text } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Head from "next/head";
 import NextLink from "next/link";
@@ -30,10 +30,18 @@ const Home: NextPage = () => {
           Welcome to Avett Rx
         </Heading>
 
+        <Text m="0" fontSize="xl" textAlign="center" mb={4}>
+          You&apos;ve got the feels.
+          <br />
+          They&apos;ve got the tunes.
+        </Text>
+
         <ViewTags />
 
         <NextLink href="/pharmacy">
-          <Link>Get a prescription</Link>
+          <Button variant="link" colorScheme="purple" mt={4}>
+            Get a prescription
+          </Button>
         </NextLink>
       </Flex>
     </Flex>

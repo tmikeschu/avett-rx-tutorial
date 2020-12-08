@@ -7,13 +7,7 @@ import Pharmacy from "features/pharmacy";
 
 const PharmacyPage: NextPage = () => {
   return (
-    <Flex
-      minHeight="100vh"
-      px="2"
-      direction="column"
-      justify="center"
-      align="center"
-    >
+    <Flex minHeight="100vh" p="4" direction="column" maxWidth="lg" mx="auto">
       <Head>
         <title>Avett Rx: Pharmacy</title>
         <link rel="icon" href="/favicon.ico" />

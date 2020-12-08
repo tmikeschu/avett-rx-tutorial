@@ -160,7 +160,7 @@ export const SongData: React.FC<{ data: SongData }> = ({ data }) => {
 
   return (
     <Flex direction="column">
-      <Text as="h3" fontWeight="bold" lineHeight="1.2" color="purple.700">
+      <Text as="h3" fontWeight="bold" lineHeight="shorter" color="purple.700">
         {song.title}
       </Text>
       <Text color="gray.500" fontSize="sm">
