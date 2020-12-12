@@ -2,10 +2,10 @@ import "../styles/globals.css";
 
 import * as React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
-import mockServiceWorker from "mocks";
 import { AppProps } from "next/app";
 
 import { ApolloProvider } from "lib/apollo-client";
+import mockServiceWorker from "mocks";
 import theme from "styles/theme";
 
 if (process.env.MOCK_SERVICE_WORKER === "1") {
