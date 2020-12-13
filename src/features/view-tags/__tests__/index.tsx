@@ -1,9 +1,9 @@
 import * as React from "react";
-import { server } from "mocks/server";
 import { graphql } from "msw";
-import * as utils from "test";
 
 import { GetTagsQuery, GetTagsQueryVariables, newGetTagsData } from "api";
+import { server } from "mocks/server";
+import * as utils from "test";
 
 import ViewTags from "..";
 
