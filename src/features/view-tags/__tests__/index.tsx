@@ -49,7 +49,7 @@ describe("<ViewTags />", () => {
       loading: false,
       data: {
         allTags: {
-          data: [{ name: "test tag", _id: "1" } as Tag],
+          data: [{ name: "test tag", _id: "1" } as Tag, null],
         },
       },
     });
