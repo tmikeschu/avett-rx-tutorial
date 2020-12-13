@@ -47,7 +47,7 @@ const Pharmacy: React.FC = () => {
         Failure,
         Success,
         Empty,
-        isEmpty: (data) => data.allTags.data.length === 0,
+        isEmpty: (data) => !data.allTags.data.some(Boolean),
       })}
     </Flex>
   );
@@ -113,23 +113,25 @@ const Success: React.FC<{ data: Data }> = ({ data }) => {
         py={4}
         px={2}
       >
-        {data.allTags.data.map((tag) => (
-          <ListItem key={tag._id} _notLast={{ mr: 4 }}>
-            <Button
-              isLoading={songsResult.loading && selectedTagId === tag._id}
-              colorScheme="purple"
-              variant="outline"
-              borderColor={
-                selectedTagId === tag._id ? "purple.600" : "purple.200"
-              }
-              onClick={() => {
-                setSelectedTagId(tag._id);
-              }}
-            >
-              {tag.name}
-            </Button>
-          </ListItem>
-        ))}
+        {data.allTags.data.map((tag) =>
+          tag ? (
+            <ListItem key={tag._id} _notLast={{ mr: 4 }}>
+              <Button
+                isLoading={songsResult.loading && selectedTagId === tag._id}
+                colorScheme="purple"
+                variant="outline"
+                borderColor={
+                  selectedTagId === tag._id ? "purple.600" : "purple.200"
+                }
+                onClick={() => {
+                  setSelectedTagId(tag._id);
+                }}
+              >
+                {tag.name}
+              </Button>
+            </ListItem>
+          ) : null
+        )}
       </List>
 
       {songsResult.called === true
@@ -138,7 +140,7 @@ const Success: React.FC<{ data: Data }> = ({ data }) => {
             Failure: SongFailure,
             Success: SongData,
             Empty: SongEmpty,
-            isEmpty: (data) => data.songsForTag.data.length === 0,
+            isEmpty: (data) => !data.songsForTag.data.some(Boolean),
           })
         : null}
     </Flex>
@@ -181,7 +183,7 @@ export const SongEmpty: React.FC = () => {
 export type SongData = NonNullable<SongsForTagQueryResult["data"]>;
 export const SongData: React.FC<{ data: SongData }> = ({ data }) => {
   const song = data.songsForTag.data[0];
-  return (
+  return song ? (
     <Flex direction="column">
       <Text as="h3" fontWeight="bold" lineHeight="shorter" color="purple.700">
         {song.title}
@@ -193,7 +195,7 @@ export const SongData: React.FC<{ data: SongData }> = ({ data }) => {
         {nl2br(song.lyrics)}
       </Text>
     </Flex>
-  );
+  ) : null;
 };
 
 export type SongError = NonNullable<SongsForTagQueryResult["error"]>;

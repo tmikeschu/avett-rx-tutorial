@@ -101,7 +101,7 @@ LoadingState.decorators = [
 
 const SongsDataTemplate: Story<{ data: SongData }> = (args) => {
   const { data } = useSongsForTagQuery({ variables: { tagID: "tag" } });
-  return data?.songsForTag ? <SongData data={data} {...args} /> : null;
+  return data?.songsForTag ? <SongData {...args} data={data} /> : <></>;
 };
 
 export const Song = SongsDataTemplate.bind({});
