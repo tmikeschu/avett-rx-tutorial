@@ -1,5 +1,8 @@
 {
   "baseUrl": "http://localhost:3000",
   "supportFile": "cypress/support/index.ts",
-  "integrationFolder": "cypress/e2e"
+  "integrationFolder": "cypress/e2e",
+  "retries": {
+    "runMode": 2
+  }
 }
