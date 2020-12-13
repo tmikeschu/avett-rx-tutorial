@@ -23,7 +23,7 @@ const Home: NextPage = () => {
         {loading ? (
           <span>Loading...</span>
         ) : (
-          tags.map((tag) => <div key={tag._id}>{tag.name}</div>)
+          tags.map((tag) => (tag ? <div key={tag._id}>{tag.name}</div> : null))
         )}
       </main>
     </div>
